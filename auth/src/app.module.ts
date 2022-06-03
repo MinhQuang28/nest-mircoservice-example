@@ -6,6 +6,7 @@ import { AuthController } from './app.controller';
 import { AuthService } from './app.service';
 import { DatabaseModule } from './common/database.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtAuthHeaderStrategy } from './strategies/jwt-header.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UsersModule } from './users/users.module';
 
@@ -33,6 +34,6 @@ import { UsersModule } from './users/users.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtAuthHeaderStrategy],
 })
 export class AuthModule {}

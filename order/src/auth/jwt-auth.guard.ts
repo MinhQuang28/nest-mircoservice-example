@@ -36,9 +36,13 @@ export class JwtAuthGuard implements CanActivate {
     if (context.getType() === 'rpc') {
       authentication = context.switchToRpc().getData().Authentication;
     } else if (context.getType() === 'http') {
-      authentication = context.switchToHttp().getRequest()
-        .cookies?.Authentication;
-      // console.log(context.switchToHttp().getRequest());
+      // authentication = context.switchToHttp().getRequest()
+      //   .cookies?.Authentication;
+      authentication = context
+        .switchToHttp()
+        .getRequest()
+        .headers?.authorization?.split(' ')[1];
+      console.log('what is ?', context.switchToHttp());
     }
     if (!authentication) {
       throw new UnauthorizedException(
@@ -54,7 +58,6 @@ export class JwtAuthGuard implements CanActivate {
     } else if (context.getType() === 'http') {
       context.switchToHttp().getRequest().user = user;
     }
-    console.log(user);
     return true;
   }
 }
