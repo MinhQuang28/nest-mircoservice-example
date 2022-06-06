@@ -45,4 +45,9 @@ export class AuthController {
   handleUserCreated(data: any, @Res() response: Response) {
     response.send({ data });
   }
+  @MessagePattern('get_analytics')
+  async logUser(@Body() request: any, @CurrentUser() user: User) {
+    console.log('get mes', request);
+    return request;
+  }
 }

@@ -36,13 +36,14 @@ export class JwtAuthGuard implements CanActivate {
     if (context.getType() === 'rpc') {
       authentication = context.switchToRpc().getData().Authentication;
     } else if (context.getType() === 'http') {
-      // authentication = context.switchToHttp().getRequest()
-      //   .cookies?.Authentication;
-      authentication = context
-        .switchToHttp()
-        .getRequest()
-        .headers?.authorization?.split(' ')[1];
-      console.log('what is ?', context.switchToHttp());
+      authentication =
+        context.switchToHttp().getRequest().cookies?.Authentication ||
+        context
+          .switchToHttp()
+          .getRequest()
+          .headers?.authorization?.split(' ')[1];
+
+      console.log('what is ?', authentication);
     }
     if (!authentication) {
       throw new UnauthorizedException(

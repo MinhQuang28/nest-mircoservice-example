@@ -10,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
       {
         name: 'AUTH',
         transport: Transport.TCP,
-        options: { port: 3001 },
+        options: { port: 3003 },
       },
     ]),
     AuthModule,

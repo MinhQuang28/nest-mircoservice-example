@@ -1,13 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { catchError, tap } from 'rxjs';
+import { AUTH_SERVICE } from './auth/services';
 import { CreateOrderRequest } from './order-request.dto';
-import { CreateOrderEvent } from './order.event';
+import { CreateOrderEvent, dataEvent } from './order.event';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
   private readonly users: any[] = [];
 
-  constructor(@Inject('AUTH') private readonly authClient: ClientProxy) {}
+  constructor(@Inject(AUTH_SERVICE) private authClient: ClientProxy) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -21,7 +23,10 @@ export class AppService {
     );
   }
 
-  getAnalytics() {
-    return this.authClient.send({ cmd: 'get_orders' }, {});
+  async getAnalytics() {
+    return await this.authClient.send('get_analytics', {
+      method: 'get',
+      mess: 'get_analytics',
+    });
   }
 }
